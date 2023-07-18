@@ -22,7 +22,6 @@
       </nav>
     </div>
   </template>
-  
   <script>
   export default {
     name:'Menu', 
@@ -32,10 +31,7 @@
         }
     },
     created(){
-        document.addEventListener('DOMContentLoaded', function () {
-      var elems = document.querySelectorAll('.sidenav');
-      var instances = M.Sidenav.init(elems, {});
-    });
+       
      }
     }
   </script>
