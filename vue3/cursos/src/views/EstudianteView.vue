@@ -34,19 +34,19 @@
     <form class="col s12">
       <div class="row">
         <div class="input-field col s6">
-          <input id="carnetid" type="text" class="validate">
+          <input id="carnetid" type="text" class="validate" v-model="payload.cedulaidentidad">
           <label for="carnetid">Cedula de Identidad</label>
         </div>
       </div>
       <div class="row">
         <div class="input-field col s6">
-          <input id="nombres" type="text" class="validate">
+          <input id="nombres" type="text" class="validate" v-model="payload.nombres">
           <label for="nombres">Registre sus Nombres</label>
         </div>
       </div>
       <div class="row">
         <div class="input-field col s12">
-          <input id="apellidop" type="text" class="validate">
+          <input id="apellidop" type="text" class="validate" v-model="payload.apellido_paterno">
           <label for="apellidop">Apellido Paterno</label>
         </div>
       </div>
@@ -96,7 +96,16 @@ export default {
   data(){
     return{
        items:[],
-       api
+       api,
+       payload:{
+        cedulaidentidad:'',
+        nombres:'',
+        apellido_paterno:'',
+        apellido_materno:'',
+        direccion:'',
+        zona:'',
+        phone:''
+       }
     }
   },
   methods: {
