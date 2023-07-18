@@ -35,7 +35,17 @@
   <style scoped lang="scss">
   .tabs{
     position:inherit;
+    background-color: white;
+    color:lightblue;
   }
+  .tabs .tab a:hover{
+    background-color:lightblue/* put some background color*/;
+    color:white/* put some font color*/;
+  }
+.tabs .tab a.active{
+    background-color:white/* put some background color*/;
+    color:lightblue/* put some font color*/;
+}
   .row{
     z-index: -1;
     position:static;
