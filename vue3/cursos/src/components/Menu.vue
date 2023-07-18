@@ -12,7 +12,8 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent" >
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0" >
-                  <li><router-link to="/" >Inicio</router-link></li>
+                  <li><router-link to="/">Inicio</router-link></li>
+                  <li><router-link to="/Gestion" >Gestion</router-link></li>
                   <li><router-link to="/Estudiante" >Estudiante</router-link></li>
                   <li><router-link to="/about">About</router-link></li> 
                 </ul>
@@ -31,7 +32,10 @@
         }
     },
     created(){
-            
+        document.addEventListener('DOMContentLoaded', function () {
+      var elems = document.querySelectorAll('.sidenav');
+      var instances = M.Sidenav.init(elems, {});
+    });
      }
     }
   </script>
