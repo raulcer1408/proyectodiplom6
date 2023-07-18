@@ -2,9 +2,7 @@
     <div>
         <nav class="navbar navbar-expand-lg " v-bind:style="'background-color:'+menuColor">
         <div class="container-fluid" v-bind:style="'background-color:'+menuColor">
-            <a class="navbar-brand" href="#">
-                <img alt="Vue logo" src="../assets/home.png" width="40" height="40">
-            </a>
+                <img alt="Vue logo" src="../assets/home.png" width="40" height="40">        
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                 aria-label="Toggle navigation">
@@ -21,6 +19,7 @@
         </div>
       </nav>
     </div>
+    <slot></slot>
   </template>
   <script>
   export default {

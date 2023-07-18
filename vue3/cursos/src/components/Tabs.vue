@@ -1,8 +1,6 @@
 <template>
-    <div>
-      <div class="row">
-      <div class="col s12">
-        <ul class="tabs">
+     <div class="row">
+      <ul class="tabs">
           <li class="tab col s3">
             <a href="#listar">
               Listar
@@ -14,17 +12,17 @@
           </a>           
         </li>
         </ul>
-      <div id="listar" class="col s12"><slot name="lista"></slot></div>
-      <div id="nuevo" class="col s12"><slot name="nuevo"></slot></div>
-    </div>
+      <div id="listar" class="col s12"><slot name="lista"></slot>
+      
       </div>
+      <div id="nuevo" class="col s12"><slot name="nuevo"></slot></div>
     </div>
   </template>
   
   <script>
   export default {
     name: 'Tabs',
-    created(){
+    created() {
       setTimeout(() => {
         var elems = document.querySelectorAll('.tabs');
         var tabs = M.Tabs.init(elems);
@@ -35,4 +33,11 @@
   
   <!-- Add "scoped" attribute to limit CSS to this component only -->
   <style scoped lang="scss">
+  .tabs{
+    position:inherit;
+  }
+  .row{
+    z-index: -1;
+    position:static;
+  }
   </style>
