@@ -1,40 +1,5 @@
 <template>
-  <div>
-  <Tabs>
-    <template v-slot:lista>
-      <h4>LISTA DE REGISTROS DE ESTUDIANTES</h4>
-      <table class="highlight" style="background-color: darkgrey; text-align: center;">
-        <thead style="background-color:lightblue;">
-          <tr style="background-color:lightblue; color:white;">
-              <th>Cedula de Identidad</th>
-              <th>Nombres</th>
-              <th>Apellido Paterno</th>
-              <th>Apellido Materno</th>
-              <th>Direccion</th>
-              <th>Zona</th>
-              <th>Telefono</th>
-              <th>opciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="estudiante in items">
-            <td>{{ estudiante.cedulaidentidad }}</td>
-            <td>{{ estudiante.nombres }}</td>
-            <td>{{ estudiante.apellido_paterno }}</td>
-            <td>{{ estudiante.apellido_materno }}</td>
-            <td>{{ estudiante.direccion }}</td>
-            <td>{{ estudiante.zona }}</td>
-            <td>{{ estudiante.phone }}</td>
-            <td>
-             <i class=" elimina material-icons" style="color:red" @click="togglepopup(estudiante.id)">
-                delete_forever</i>
-             <router-link :to="'/Estudiante/'+estudiante.id"><i class="material-icons">create</i></router-link>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </template>
-    <template v-slot:nuevo>
+  <h4>Editar Cliente</h4>
   <div class="row">
     <form class="col s12" @submit.prevent="saveEstudiante()">
       <div class="row">
@@ -86,13 +51,6 @@
       </div>
     </form>
   </div>
-    </template>
-  </Tabs>
-  <Popup :popupval=popupval :val=idDel v-if="popupval" @togglepopup="togglepopup('0')" @eliminarest="eliminarEstudiante(idDel)">
-    <h6 style="color: white;">Esta seguro de eliminar al Estudiante?</h6>
-  </Popup>
-  <pre>{{ payload }}</pre>
-  </div>
 </template>
 
 <script>
@@ -104,7 +62,6 @@ export default {
   name: 'Estudiante',
   data(){
     return{
-       items:[],
        api,
        payload:{
         cedulaidentidad:'',
@@ -115,27 +72,13 @@ export default {
         zona:'',
         phone:''
        },
-       popupval:false,
-       idDel:0
     }
   },
   methods: {
-    getEstudiantes(){
-      this.axios({
-                method: 'get',
-                url: this.api + '/Estudiante'
-            })
-                .then((response) => {
-                    this.items = response.data;
-                    console.log(response);
-                })
-                .catch((error) => { console.log(error) })
-                .finally(() => { });
-    },
     saveEstudiante(){
       this.axios({
-                method: 'post',
-                url: this.api + '/Estudiante',
+                method: 'put',
+                url: this.api + '/Estudiante/',
                 data:this.payload
             })
                 .then((response) => {
@@ -148,33 +91,31 @@ export default {
                       zona:'',
                       phone:''      
                     }
-                    this.getEstudiantes();
                     console.log(response);
                 })
                 .catch((error) => { console.log(error) })
                 .finally(() => { });
     },
-    eliminarEstudiante(id){
-        this.axios({
-          method:'delete',
-          url:this.api+'/Estudiante/'+id
-        }).then((response)=>{
-            this.getEstudiantes();
-            this.togglepopup(0);
-            console.log(response);
+    getEstudiante(){
+      this.axios({
+         method: 'get',
+         url: this.api + '/Estudiante/'+this.$route.params.id
+      })
+      .then((response) => {
+        this.payload = response.data;
+        setTimeout(function () {
+          M.updateTextFields();
         });
-    },
-    togglepopup(id){
-      this.popupval=!this.popupval;
-      this.idDel=id;
-      //console.log(id);
+        console.log(response);
+      })
+      .catch((error) => { console.log(error) })
+       .finally(() => { });
     }
   },
   components: {
-    Tabs,Popup
   },
-  mounted(){
-    this.getEstudiantes();
+  created(){
+    this.getEstudiante();
   }
 }
 </script>
