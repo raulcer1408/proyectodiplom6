@@ -26,8 +26,10 @@
             <td>{{ estudiante.zona }}</td>
             <td>{{ estudiante.phone }}</td>
             <td>
-            <i class="material-icons" style="color:red">
-              delete_forever</i>
+               
+             <i class=" elimina material-icons" style="color:red" @click="eliminarEstudiante(estudiante.id)">
+                delete_forever</i>
+            
             <i class="material-icons">create</i>
             </td>
           </tr>
@@ -148,6 +150,18 @@ export default {
                 })
                 .catch((error) => { console.log(error) })
                 .finally(() => { });
+    },
+    eliminarEstudiante(id){
+      if(confirm("Esta seguro de eliminar el estudiante?"))
+      {
+        this.axios({
+          method:'delete',
+          url:this.api+'/Estudiante/'+id
+        }).then((response)=>{
+            this.getEstudiantes();
+            console.log(response);
+        });
+      }
     }
   },
   components: {
@@ -167,7 +181,7 @@ export default {
                 display: inline-block;
             }
 
-            .clic{
+            .clic,.elimina{
                 cursor: pointer;
             }
 

@@ -57,16 +57,6 @@
       "direccion": "ballivian 123",
       "zona": "terminal",
       "phone": "12588702"
-    },
-    {
-      "cedulaidentidad": "1425369",
-      "nombres": "juan mario",
-      "apellido_paterno": "montero",
-      "apellido_materno": "gutierrez",
-      "direccion": "junin 33",
-      "zona": "central",
-      "phone": "68522142",
-      "id": "GBBp_eB"
     }
   ],
   "Gestion_Estudiante": [
