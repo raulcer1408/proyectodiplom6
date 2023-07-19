@@ -26,10 +26,8 @@
             <td>{{ estudiante.zona }}</td>
             <td>{{ estudiante.phone }}</td>
             <td>
-               
-             <i class=" elimina material-icons" style="color:red" @click="eliminarEstudiante(estudiante.id)">
+             <i class=" elimina material-icons" style="color:red" @click="togglepopup(estudiante.id)">
                 delete_forever</i>
-            
             <i class="material-icons">create</i>
             </td>
           </tr>
@@ -90,16 +88,19 @@
   </div>
     </template>
   </Tabs>
+  <Popup :popupval=popupval :val=idDel v-if="popupval" @togglepopup="togglepopup('0')" @eliminarest="eliminarEstudiante(idDel)">
+    <h6 style="color: white;">Esta seguro de eliminar al Estudiante?</h6>
+  </Popup>
   <pre>{{ payload }}</pre>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import Tabs from '@/components/Tabs.vue'
+import Tabs from '@/components/Tabs.vue';
+import Popup from '@/components/PopupEstudiante.vue';
 const api=process.env.VUE_APP_API;
 export default {
-  
   name: 'Estudiante',
   data(){
     return{
@@ -113,7 +114,9 @@ export default {
         direccion:'',
         zona:'',
         phone:''
-       }
+       },
+       popupval:false,
+       idDel:0
     }
   },
   methods: {
@@ -152,20 +155,23 @@ export default {
                 .finally(() => { });
     },
     eliminarEstudiante(id){
-      if(confirm("Esta seguro de eliminar el estudiante?"))
-      {
         this.axios({
           method:'delete',
           url:this.api+'/Estudiante/'+id
         }).then((response)=>{
             this.getEstudiantes();
+            this.togglepopup(0);
             console.log(response);
         });
-      }
+    },
+    togglepopup(id){
+      this.popupval=!this.popupval;
+      this.idDel=id;
+      //console.log(id);
     }
   },
   components: {
-    Tabs
+    Tabs,Popup
   },
   mounted(){
     this.getEstudiantes();

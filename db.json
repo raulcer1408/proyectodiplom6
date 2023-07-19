@@ -57,6 +57,16 @@
       "direccion": "ballivian 123",
       "zona": "terminal",
       "phone": "12588702"
+    },
+    {
+      "cedulaidentidad": "6588022",
+      "nombres": "martin antonio",
+      "apellido_paterno": "juarez",
+      "apellido_materno": "montenegro",
+      "direccion": "bolivar 33",
+      "zona": "central",
+      "phone": "258412",
+      "id": "7Yk4PXv"
     }
   ],
   "Gestion_Estudiante": [
