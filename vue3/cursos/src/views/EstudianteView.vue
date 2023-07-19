@@ -3,7 +3,7 @@
   <Tabs>
     <template v-slot:lista>
       <h4>LISTA DE REGISTROS DE ESTUDIANTES</h4>
-      <table class="highlight" style="background-color: darkgrey;">
+      <table class="highlight" style="background-color: darkgrey; text-align: center;">
         <thead style="background-color:lightblue;">
           <tr style="background-color:lightblue; color:white;">
               <th>Cedula de Identidad</th>
@@ -13,6 +13,7 @@
               <th>Direccion</th>
               <th>Zona</th>
               <th>Telefono</th>
+              <th>opciones</th>
           </tr>
         </thead>
         <tbody>
@@ -24,14 +25,18 @@
             <td>{{ estudiante.direccion }}</td>
             <td>{{ estudiante.zona }}</td>
             <td>{{ estudiante.phone }}</td>
+            <td>
+            <i class="material-icons" style="color:red">
+              delete_forever</i>
+            <i class="material-icons">create</i>
+            </td>
           </tr>
         </tbody>
       </table>
     </template>
     <template v-slot:nuevo>
-      
   <div class="row">
-    <form class="col s12">
+    <form class="col s12" @submit.prevent="saveEstudiante()">
       <div class="row">
         <div class="input-field col s6">
           <input id="carnetid" type="text" class="validate" v-model="payload.cedulaidentidad">
@@ -52,28 +57,28 @@
       </div>
       <div class="row">
         <div class="input-field col s12">
-          <input id="apellidom" type="text" class="validate">
+          <input id="apellidom" type="text" class="validate" v-model="payload.apellido_materno">
           <label for="apellidom">Apellido Materno</label>
         </div>
       </div>
       <div class="row">
         <div class="input-field col s12">
-          <input id="direccion" type="text" class="validate">
+          <input id="direccion" type="text" class="validate" v-model="payload.direccion">
           <label for="direccion">Direccion</label>
         </div>
       </div>
       <div class="row">
         <div class="input-field col s6">
-          <input id="zona" type="text" class="validate">
+          <input id="zona" type="text" class="validate" v-model="payload.zona">
           <label for="zona">Zona</label>
         </div>
         <div class="input-field col s6">
-          <input id="phone" type="text" class="validate">
+          <input id="phone" type="text" class="validate" v-model="payload.phone">
           <label for="phone">Telefono</label>
         </div>
         <div class="row">
         <div class="col s6">
-        <button class="btn waves-effect waves-light" type="submit" name="action">Submit
+        <button class="btn waves-effect waves-light" type="submit" name="action">Guardar
          <i class="material-icons right">save</i>
         </button>
       </div>
@@ -83,6 +88,7 @@
   </div>
     </template>
   </Tabs>
+  <pre>{{ payload }}</pre>
   </div>
 </template>
 
@@ -116,6 +122,28 @@ export default {
             })
                 .then((response) => {
                     this.items = response.data;
+                    console.log(response);
+                })
+                .catch((error) => { console.log(error) })
+                .finally(() => { });
+    },
+    saveEstudiante(){
+      this.axios({
+                method: 'post',
+                url: this.api + '/Estudiante',
+                data:this.payload
+            })
+                .then((response) => {
+                    this.payload = {
+                      cedulaidentidad:'',
+                      nombres:'',
+                      apellido_paterno:'',
+                      apellido_materno:'',
+                      direccion:'',
+                      zona:'',
+                      phone:''      
+                    }
+                    this.getEstudiantes();
                     console.log(response);
                 })
                 .catch((error) => { console.log(error) })

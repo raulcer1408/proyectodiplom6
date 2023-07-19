@@ -7,7 +7,8 @@
               <i class="tiny material-icons">view_list</i>    
           </a>  
           </li>
-          <li class="tab col s3"><a href="#nuevo">Nuevo
+          <li class="tab col s3">
+          <a href="#nuevo">Nuevo
             <i class=" tiny material-icons">add</i>
           </a>           
         </li>
@@ -37,6 +38,7 @@
     position:inherit;
     background-color: white;
     color:lightblue;
+    text-align: center;
   }
   .tabs .tab a:hover{
     background-color:lightblue/* put some background color*/;
@@ -45,6 +47,10 @@
 .tabs .tab a.active{
     background-color:white/* put some background color*/;
     color:lightblue/* put some font color*/;
+}
+.tabs .tab a {
+  background-color: white;
+  color: lightblue;
 }
   .row{
     z-index: -1;
