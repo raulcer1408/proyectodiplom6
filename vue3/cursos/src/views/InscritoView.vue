@@ -2,7 +2,7 @@
   <div>
   <Tabs>
     <template v-slot:lista>
-      <h4>LISTA DE REGISTROS DE GESTIONES</h4>
+      <h4>LISTA DE REGISTROS DE INSCRITOS</h4>
       <table class="highlight" style="background-color: darkgrey; text-align: center;">
         <thead style="background-color:lightblue;">
           <tr style="background-color:lightblue; color:white;">
@@ -29,14 +29,14 @@
     </template>
     <template v-slot:nuevo>
   <div class="row">
-    <form class="col s12" @submit.prevent="saveGestiones()">
+    <form class="col s12">
       <div class="row">
         <div class="input-field col s4">
-          <input id="tipo" type="text" class="validate" v-model="payload.tipo">
+          <input id="tipo" type="text" class="validate" >
           <label for="tipo">Registro del tipo</label>
         </div>
         <div class="input-field col s4">
-        <select v-model="payload.numero">
+        <select>
       <option value="" disabled selected>Elija una opcion</option>
       <option value="1">semestre 1</option>
       <option value="2">semestre 2</option>
@@ -47,7 +47,7 @@
       </div>
       <div class="row">
         <div class="input-field col s4">
-          <input id="anio" type="text" class="validate" v-model="payload.anio">
+          <input id="anio" type="text" class="validate">
           <label for="anio">Año</label>
         </div>
       </div>
