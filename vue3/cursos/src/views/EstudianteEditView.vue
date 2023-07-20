@@ -52,11 +52,8 @@
     </form>
   </div>
 </template>
-
 <script>
 // @ is an alias to /src
-import Tabs from '@/components/Tabs.vue';
-import Popup from '@/components/PopupEstudiante.vue';
 const api=process.env.VUE_APP_API;
 export default {
   name: 'Estudiante',
@@ -64,6 +61,7 @@ export default {
     return{
        api,
        payload:{
+        id:'',
         cedulaidentidad:'',
         nombres:'',
         apellido_paterno:'',
@@ -77,8 +75,8 @@ export default {
   methods: {
     saveEstudiante(){
       this.axios({
-                method: 'put',
-                url: this.api + '/Estudiante/',
+                method: 'patch',
+                url: this.api + '/Estudiante/'+this.$route.params.id,
                 data:this.payload
             })
                 .then((response) => {
@@ -92,6 +90,7 @@ export default {
                       phone:''      
                     }
                     console.log(response);
+                    window.location.href="../Estudiante";
                 })
                 .catch((error) => { console.log(error) })
                 .finally(() => { });
