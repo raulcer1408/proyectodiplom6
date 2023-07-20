@@ -35,12 +35,6 @@
       "tipo": "semestral",
       "numero": 2,
       "anio": 2018
-    },
-    {
-      "tipo": "anual",
-      "numero": "0",
-      "anio": "2019",
-      "id": 7
     }
   ],
   "Estudiante": [

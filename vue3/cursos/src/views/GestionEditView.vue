@@ -1,33 +1,5 @@
 <template>
-  <div>
-  <Tabs>
-    <template v-slot:lista>
-      <h4>LISTA DE REGISTROS DE GESTIONES</h4>
-      <table class="highlight" style="background-color: darkgrey; text-align: center;">
-        <thead style="background-color:lightblue;">
-          <tr style="background-color:lightblue; color:white;">
-              <th>Tipo</th>
-              <th>Numero de Semestre</th>
-              <th>Año</th>
-              <th>opciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="gestion in items">
-            <td>{{ gestion.tipo }}</td>
-            <td v-if="gestion.numero==0">Toda la gestion</td>
-            <td v-if="gestion.numero!=0">{{ gestion.numero }}</td>
-            <td>{{ gestion.anio }}</td>
-            <td>
-             <i class="elimina material-icons" style="color:red" @click="togglepopup(gestion.id)">
-                delete_forever</i>
-             <router-link :to="'/Gestion/'+gestion.id"><i class="material-icons">create</i></router-link>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </template>
-    <template v-slot:nuevo>
+  <h4>Editar Gestion</h4>
   <div class="row">
     <form class="col s12" @submit.prevent="saveGestiones()">
       <div class="row">
@@ -60,97 +32,63 @@
     </div>
     </form>
   </div>
-    </template>
-  </Tabs>
-  <PopupG :popupval=popupval :val=idDel v-if="popupval" @togglepopup="togglepopup('0')" @eliminargest="eliminarGestion(idDel)">
-    <h6 style="color: white;">Esta seguro de eliminar la Gestion?</h6>
-  </PopupG>
-  <pre>{{ payload }}</pre>
-  </div>
 </template>
-
 <script>
 // @ is an alias to /src
-import Tabs from '@/components/Tabs.vue';
-import PopupG from '@/components/PopupDeleteGest.vue';
 const api=process.env.VUE_APP_API;
 export default {
-  name: 'Gestion',
+  name: 'GestionEdit',
   data(){
     return{
-       items:[],
        api,
        payload:{
         tipo:'',
         numero:'',
         anio:''
        },
-       popupval:false,
-       idDel:0
     }
   },
   methods: {
-    getGestiones(){
-      this.axios({
-                method: 'get',
-                url: this.api + '/Gestion'
-            })
-                .then((response) => {
-                    this.items = response.data;
-                    console.log(response);
-                    setTimeout(function () {
-                        var elems = document.querySelectorAll('select');
-                        var select = M.FormSelect.init(elems);
-                    });
-                })
-                .catch((error) => { console.log(error) })
-                .finally(() => { });
-    },
     saveGestiones(){
       this.axios({
-                method: 'post',
-                url: this.api + '/Gestion',
+                method: 'patch',
+                url: this.api + '/Gestion/'+this.$route.params.id,
                 data:this.payload
             })
                 .then((response) => {
-                    this.payload = {
-                      tipo:'',
-                      numero:'',
-                      anio:''             
-                    }
-                    this.getGestiones();
+                    this.payload={
+                    tipo:'',
+                    numero:'',
+                     anio:''
+                   },
                     console.log(response);
+                    window.location.href="../Gestion";
                 })
                 .catch((error) => { console.log(error) })
                 .finally(() => { });
     },
-    eliminarGestion(id){
-        this.axios({
-          method:'delete',
-          url:this.api+'/Gestion/'+id
-        }).then((response)=>{
-            this.getGestiones();
-            this.togglepopup(0);
-            console.log(response);
+    getGestion(){
+      this.axios({
+         method: 'get',
+         url: this.api + '/Gestion/'+this.$route.params.id
+      })
+      .then((response) => {
+        this.payload = response.data;
+        setTimeout(function () {
+          M.updateTextFields();
+          var elems = document.querySelectorAll('select');
+          var select = M.FormSelect.init(elems);
         });
-    },
-    togglepopup(id){
-      this.popupval=!this.popupval;
-      this.idDel=id;
-      //console.log(id);
+        console.log(response);
+      })
+      .catch((error) => { console.log(error) })
+       .finally(() => { });
     }
   },
   components: {
-    Tabs,PopupG
-  },
-  mounted(){
-    this.getGestiones();
   },
   created(){
-    setTimeout(function () {
-      var elems = document.querySelectorAll('select');
-      var select = M.FormSelect.init(elems);
-   });
+    this.getGestion();
   }
 }
 </script>

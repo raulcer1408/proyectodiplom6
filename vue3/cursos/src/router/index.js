@@ -39,6 +39,14 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/GestionView.vue')
   },
   {
+    path: '/Gestion/:id',
+    name: 'GestionEdit',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "about" */ '../views/GestionEditView.vue')
+  },
+  {
     path: '/Inscrito',
     name: 'Inscrito',
     // route level code-splitting
