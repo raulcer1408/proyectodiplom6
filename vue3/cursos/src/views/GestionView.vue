@@ -93,7 +93,7 @@ export default {
     getGestiones(){
       this.axios({
                 method: 'get',
-                url: this.api + '/Gestion'
+                url: this.api + '/Gestions'
             })
                 .then((response) => {
                     this.items = response.data;
@@ -109,7 +109,7 @@ export default {
     saveGestiones(){
       this.axios({
                 method: 'post',
-                url: this.api + '/Gestion',
+                url: this.api + '/Gestions',
                 data:this.payload
             })
                 .then((response) => {
@@ -127,7 +127,7 @@ export default {
     eliminarGestion(id){
         this.axios({
           method:'delete',
-          url:this.api+'/Gestion/'+id
+          url:this.api+'/Gestions/'+id
         }).then((response)=>{
             this.getGestiones();
             this.togglepopup(0);

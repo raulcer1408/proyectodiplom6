@@ -71,15 +71,15 @@
   ],
   "Gestion_Estudiante": [
     {
-      "Estudiante_ID": "1",
-      "Gestion_Id": 1,
+      "EstudianteID": "1",
+      "GestionId": 1,
       "curso": "primero basico",
       "tipo":"principal",
       "materia": "matematicas"
     },
     {
-      "Estudiante_ID": "2",
-      "Gestion_Id": 2,
+      "EstudianteID": "2",
+      "GestionId": 2,
       "curso": "primero basico",
       "tipo": "optativa",
       "materia": "ajedrez"

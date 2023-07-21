@@ -1,5 +1,5 @@
 {
-  "Gestion": [
+  "Gestions": [
     {
       "id": 1,
       "tipo": "anual",
@@ -37,7 +37,7 @@
       "anio": 2018
     }
   ],
-  "Estudiante": [
+  "Estudiantes": [
     {
       "id": "1",
       "cedulaidentidad": "1536988",
@@ -69,17 +69,17 @@
       "id": "7Yk4PXv"
     }
   ],
-  "Gestion_Estudiante": [
+  "Gestion_Estudiantes": [
     {
-      "Estudiante_ID": "1",
-      "Gestion_Id": 1,
+      "EstudianteId": "1",
+      "GestionId": 1,
       "curso": "primero basico",
-      "tipo":"principal",
+      "tipo": "principal",
       "materia": "matematicas"
     },
     {
-      "Estudiante_ID": "2",
-      "Gestion_Id": 2,
+      "EstudianteId": "2",
+      "GestionId": 2,
       "curso": "primero basico",
       "tipo": "optativa",
       "materia": "ajedrez"

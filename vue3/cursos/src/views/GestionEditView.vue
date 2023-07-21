@@ -52,7 +52,7 @@ export default {
     saveGestiones(){
       this.axios({
                 method: 'patch',
-                url: this.api + '/Gestion/'+this.$route.params.id,
+                url: this.api + '/Gestions/'+this.$route.params.id,
                 data:this.payload
             })
                 .then((response) => {
@@ -70,7 +70,7 @@ export default {
     getGestion(){
       this.axios({
          method: 'get',
-         url: this.api + '/Gestion/'+this.$route.params.id
+         url: this.api + '/Gestions/'+this.$route.params.id
       })
       .then((response) => {
         this.payload = response.data;

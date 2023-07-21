@@ -6,18 +6,33 @@
       <table class="highlight" style="background-color: darkgrey; text-align: center;">
         <thead style="background-color:lightblue;">
           <tr style="background-color:lightblue; color:white;">
-              <th>Tipo</th>
-              <th>Numero de Semestre</th>
-              <th>Año</th>
+             <th>Curso</th>
+             <th>Tipo del curso</th>
+             <th>materia</th>
+              <th>Nombre del Estudiante</th>
+              <th>Apellido Paterno del estudiante</th>
+              <th>Apellido Materno del estudiante</th>
+              <th>semestre</th>
+              <th>tipo</th>
+              <th>año</th>
               <th>opciones</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="gestion in items">
-            <td>{{ gestion.tipo }}</td>
-            <td v-if="gestion.numero==0">Toda la gestion</td>
-            <td v-if="gestion.numero!=0">{{ gestion.numero }}</td>
-            <td>{{ gestion.anio }}</td>
+          <tr v-for="inscrito in items">
+            <td>{{ inscrito.curso }}</td>
+            <td>{{ inscrito.tipo }}</td>
+            <td>{{ inscrito.materia }}</td>
+            <template v-for="(estudiantereg,index) in inscrito.Estudiante" :key="estudiantereg.id">
+              <td v-if="index=='nombres'">{{estudiantereg}}</td>
+              <td v-if="index=='apellido_paterno'">{{estudiantereg}}</td>
+              <td v-if="index=='apellido_materno'">{{estudiantereg}}</td>
+            </template>
+            <template v-for="(gestionreg,index) in inscrito.Gestion" :key="gestionreg.id">
+              <td v-if="index=='numero'">{{gestionreg}}</td>              
+              <td v-if="index=='tipo'">{{gestionreg}}</td>
+              <td v-if="index=='anio'">{{gestionreg}}</td>
+            </template>
             <td>
              <i class=" elimina material-icons" style="color:red" @click="">
                 delete_forever</i>
@@ -71,10 +86,11 @@
 import Tabs from '@/components/Tabs.vue';
 const api=process.env.VUE_APP_API;
 export default {
-  name: 'Gestion',
+  name: 'Inscrito',
   data(){
     return{
        items:[],
+       itemsest:[],
        api,
        payload:{
         tipo:'',
@@ -85,10 +101,27 @@ export default {
     }
   },
   methods: {
-    getGestiones(){
+    getobtenerdatosestudiante(id)
+    {
       this.axios({
                 method: 'get',
-                url: this.api + '/Gestion'
+                url: this.api + '/Gestion/'+id
+            })
+                .then((response) => {
+                    this.itemest = response.data;
+                    console.log(response);
+                    setTimeout(function () {
+                        var elems = document.querySelectorAll('select');
+                        var select = M.FormSelect.init(elems);
+                    });
+                })
+                .catch((error) => { console.log(error) })
+                .finally(() => { }); 
+    },
+    getInscritos(){
+      this.axios({
+                method: 'get',
+                url: this.api + '/Gestion_Estudiantes?_expand=Gestion&_expand=Estudiante'
             })
                 .then((response) => {
                     this.items = response.data;
@@ -138,7 +171,7 @@ export default {
     Tabs
   },
   mounted(){
-    this.getGestiones();
+    this.getInscritos();
   },
   created(){
     setTimeout(function () {

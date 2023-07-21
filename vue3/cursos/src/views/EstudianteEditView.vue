@@ -76,7 +76,7 @@ export default {
     saveEstudiante(){
       this.axios({
                 method: 'patch',
-                url: this.api + '/Estudiante/'+this.$route.params.id,
+                url: this.api + '/Estudiantes/'+this.$route.params.id,
                 data:this.payload
             })
                 .then((response) => {
@@ -98,7 +98,7 @@ export default {
     getEstudiante(){
       this.axios({
          method: 'get',
-         url: this.api + '/Estudiante/'+this.$route.params.id
+         url: this.api + '/Estudiantes/'+this.$route.params.id
       })
       .then((response) => {
         this.payload = response.data;

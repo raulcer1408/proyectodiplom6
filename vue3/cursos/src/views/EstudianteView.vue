@@ -123,7 +123,7 @@ export default {
     getEstudiantes(){
       this.axios({
                 method: 'get',
-                url: this.api + '/Estudiante'
+                url: this.api + '/Estudiantes'
             })
                 .then((response) => {
                     this.items = response.data;
@@ -135,7 +135,7 @@ export default {
     saveEstudiante(){
       this.axios({
                 method: 'post',
-                url: this.api + '/Estudiante',
+                url: this.api + '/Estudiantes',
                 data:this.payload
             })
                 .then((response) => {
@@ -157,7 +157,7 @@ export default {
     eliminarEstudiante(id){
         this.axios({
           method:'delete',
-          url:this.api+'/Estudiante/'+id
+          url:this.api+'/Estudiantes/'+id
         }).then((response)=>{
             this.getEstudiantes();
             this.togglepopup(0);
