@@ -3,6 +3,7 @@
   <Tabs>
     <template v-slot:lista>
       <h4>LISTA DE REGISTROS DE GESTIONES</h4>
+      <search placeholder="Buscar Gestion" @searchtext="searchFx($event)"></search>
       <table class="highlight" style="background-color: darkgrey; text-align: center;">
         <thead style="background-color:lightblue;">
           <tr style="background-color:lightblue; color:white;">
@@ -73,6 +74,7 @@
 // @ is an alias to /src
 import Tabs from '@/components/Tabs.vue';
 import PopupG from '@/components/PopupDeleteGest.vue';
+import search from '@/components/Search.vue';
 const api=process.env.VUE_APP_API;
 export default {
   name: 'Gestion',
@@ -83,7 +85,8 @@ export default {
        payload:{
         tipo:'',
         numero:'',
-        anio:''
+        anio:'',
+        tosearch:''
        },
        popupval:false,
        idDel:0
@@ -93,7 +96,7 @@ export default {
     getGestiones(){
       this.axios({
                 method: 'get',
-                url: this.api + '/Gestions'
+                url: this.api + '/Gestions?'+this.tosearch
             })
                 .then((response) => {
                     this.items = response.data;
@@ -138,10 +141,18 @@ export default {
       this.popupval=!this.popupval;
       this.idDel=id;
       //console.log(id);
+    },
+    searchFx(event){
+      if(event==''){
+        this.tosearch='';
+      }else{
+        this.tosearch='&q='+event;
+      }
+      this.getGestiones();
     }
   },
   components: {
-    Tabs,PopupG
+    Tabs,PopupG,search
   },
   mounted(){
     this.getGestiones();
