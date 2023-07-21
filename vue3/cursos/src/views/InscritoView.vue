@@ -29,7 +29,7 @@
               <td v-if="index=='apellido_materno'">{{estudiantereg}}</td>
             </template>
             <template v-for="(gestionreg,index) in inscrito.Gestion" :key="gestionreg.id">
-              <td v-if="index=='numero'">{{gestionreg}}</td>              
+              <td v-if="index=='numero'">{{gestionreg}}</td>
               <td v-if="index=='tipo'">{{gestionreg}}</td>
               <td v-if="index=='anio'">{{gestionreg}}</td>
             </template>
