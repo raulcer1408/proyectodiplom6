@@ -46,29 +46,49 @@
   <div class="row">
     <form class="col s12">
       <div class="row">
-        <div class="input-field col s4">
-          <input id="tipo" type="text" class="validate" >
-          <label for="tipo">Registro del tipo</label>
-        </div>
-        <div class="input-field col s4">
-        <select>
-      <option value="" disabled selected>Elija una opcion</option>
-      <option value="1">semestre 1</option>
-      <option value="2">semestre 2</option>
-      <option value="0">toda la gestion</option>
+        <div class="input-field col s12">
+    <select v-model="payload.EstudianteId">
+      <option value="" disabled selected>Seleccione carnet de identidad del estudiante</option>
+      <template v-for="est in itemtodoslosest">
+      <option :value="est.id">{{ est.cedulaidentidad }}</option>
+    </template>
     </select>
-    <label>Seleccione semestre o gestion</label>
-  </div>
+    <label>Seleccione el estudiante</label>
       </div>
+    </div>
       <div class="row">
         <div class="input-field col s4">
-          <input id="anio" type="text" class="validate">
-          <label for="anio">Año</label>
+        <select v-model="payload.GestionId">
+      <option value="" disabled selected>Seleccione Gestion</option>
+      <template v-for="gestionselect in itemtodosgestion">
+      <option :value="gestionselect.id" v-if="gestionselect.numero!=0">{{ gestionselect.tipo}}-{{ gestionselect.numero }}-{{ gestionselect.anio }}</option>
+      <option :value="gestionselect.id" v-else>{{ gestionselect.tipo}}-{{ gestionselect.anio }}</option>
+      </template>
+      </select>
+      <label>Seleccione Gestion</label>
+      </div>
+          <div class="input-field col s4">
+          <input id="curso" type="text" class="validate" v-model="payload.curso">
+          <label for="curso">Curso</label>
+         </div>
+         <div class="input-field col s4">
+    <select v-model="payload.tipo">
+      <option value="" disabled selected>Tipo de Materia</option>
+      <option value="optativa">optativa</option>
+      <option value="principal">principal</option>
+    </select>
+    <label>Tipo de Materia</label>
+  </div>
+    </div>
+    <div class="row">
+        <div class="input-field col s12">
+          <input id="materia" type="text" class="validate" v-model="payload.materia">
+          <label for="materia">Materia</label>
         </div>
       </div>
         <div class="row">
-        <div class="col s6">
-        <button class="btn waves-effect waves-light" type="submit" name="action">Guardar
+        <div class="col s12">
+        <button class="btn waves-effect waves-light" type="submit" name="action">Inscribir
          <i class="material-icons right">save</i>
         </button>
       </div>
@@ -91,16 +111,55 @@ export default {
     return{
        items:[],
        itemsest:[],
+       itemgestion:[],
+       itemtodoslosest:[],
+       itemtodosgestion:[],
        api,
        payload:{
-        tipo:'',
-        numero:'',
-        anio:''
-       },
+        EstudianteId: '',
+        GestionId: '',
+        curso: '',
+        tipo: '',
+        materia: '',       
+      },
        idDel:0
     }
   },
   methods: {
+    getobtenerdatostodosestudiante()
+    {
+      this.axios({
+                method: 'get',
+                url: this.api + '/Estudiantes/'
+            })
+                .then((response) => {
+                    this.itemtodoslosest = response.data;
+                    console.log(response);
+                    setTimeout(function () {
+                        var elems = document.querySelectorAll('select');
+                        var select = M.FormSelect.init(elems);
+                    });
+                })
+                .catch((error) => { console.log(error) })
+                .finally(() => { }); 
+    },
+    getobtenerdatostodosgestion()
+    {
+      this.axios({
+                method: 'get',
+                url: this.api + '/Gestions/'
+            })
+                .then((response) => {
+                    this.itemtodosgestion = response.data;
+                    console.log(response);
+                    setTimeout(function () {
+                        var elems = document.querySelectorAll('select');
+                        var select = M.FormSelect.init(elems);
+                    });
+                })
+                .catch((error) => { console.log(error) })
+                .finally(() => { }); 
+    },
     getobtenerdatosestudiante(id)
     {
       this.axios({
@@ -172,6 +231,8 @@ export default {
   },
   mounted(){
     this.getInscritos();
+    this.getobtenerdatostodosestudiante();
+    this.getobtenerdatostodosgestion();
   },
   created(){
     setTimeout(function () {
