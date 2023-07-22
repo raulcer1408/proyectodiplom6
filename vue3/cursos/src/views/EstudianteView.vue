@@ -2,6 +2,12 @@
   <div>
   <Tabs>
     <template v-slot:lista>
+      <Search placeholder="Buscar Estudiante" @searchtext="searchFx($event)"></Search>        
+      <div class="input-field" style="display:inline-block">
+        <input id="filtro" type="search" class="validate">
+        <label for="filtro">filtro zona</label>
+        </div>
+          <button class="popup-delete btn waves-effect waves-light" @click="onFilterFx()">Filtrar</button>
       <h4>LISTA DE REGISTROS DE ESTUDIANTES</h4>
       <table class="highlight" style="background-color: darkgrey; text-align: center;">
         <thead style="background-color:lightblue;">
@@ -99,6 +105,7 @@
 // @ is an alias to /src
 import Tabs from '@/components/Tabs.vue';
 import Popup from '@/components/PopupEstudiante.vue';
+import Search from '@/components/Search.vue';
 const api=process.env.VUE_APP_API;
 export default {
   name: 'Estudiante',
@@ -116,14 +123,32 @@ export default {
         phone:''
        },
        popupval:false,
-       idDel:0
+       idDel:0,
+       tosearch:'',
+       tofilter:''
     }
   },
   methods: {
+    getEstudiantesconFiltro(){
+      this.axios({
+                method: 'get',
+                url: this.api + '/Estudiantes?'+this.tosearch+this.tofilter
+            })
+                .then((response) => {
+                    this.items = response.data;
+                    console.log(response);
+                    setTimeout(function () {
+                        var elems = document.querySelectorAll('select');
+                        var select = M.FormSelect.init(elems);
+                    });
+                })
+                .catch((error) => { console.log(error) })
+                .finally(() => { });
+    },
     getEstudiantes(){
       this.axios({
                 method: 'get',
-                url: this.api + '/Estudiantes'
+                url: this.api + '/Estudiantes?'+this.tosearch
             })
                 .then((response) => {
                     this.items = response.data;
@@ -168,13 +193,38 @@ export default {
       this.popupval=!this.popupval;
       this.idDel=id;
       //console.log(id);
+    },
+    searchFx(event){
+     if(event=='')
+     {
+      this.tosearch='';
+     }else{
+      this.tosearch='&q='+event;
+     }
+     this.getEstudiantes();
+    },
+    onFilterFx() {
+      let field='zona';
+      let event=document.getElementById('filtro').value;
+      if (event === '') {
+        this.tofilter = '';
+      } else {
+        this.tofilter = '&' + field + '='+event;
+      }
+      this.getEstudiantesconFiltro();
     }
   },
   components: {
-    Tabs,Popup
+    Tabs,Popup,Search
   },
   mounted(){
     this.getEstudiantes();
+  },
+  created(){
+    setTimeout(function () {
+        var elems = document.querySelectorAll('select');
+        var select = M.FormSelect.init(elems);
+      });
   }
 }
 </script>
