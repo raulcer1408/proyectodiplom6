@@ -4,6 +4,13 @@
     <template v-slot:lista>
       <h4>LISTA DE REGISTROS DE GESTIONES</h4>
       <search placeholder="Buscar Gestion" @searchtext="searchFx($event)"></search>
+      <FilterApp>
+        <div class="input-field" style="display:inline-block">
+            <input id="filtro" type="search" class="validate">
+            <label for="filtro">filtro año</label>
+          </div>
+          <button class="popup-delete btn waves-effect waves-light" @click="onFilterFx()">Filtrar</button>
+      </FilterApp>
       <table class="highlight" style="background-color: darkgrey; text-align: center;">
         <thead style="background-color:lightblue;">
           <tr style="background-color:lightblue; color:white;">
@@ -75,6 +82,8 @@
 import Tabs from '@/components/Tabs.vue';
 import PopupG from '@/components/PopupDeleteGest.vue';
 import search from '@/components/Search.vue';
+import FilterApp from '@/components/filterGroup.vue';
+import FilterItem from '@/components/Filteritem.vue';
 const api=process.env.VUE_APP_API;
 export default {
   name: 'Gestion',
@@ -86,7 +95,8 @@ export default {
         tipo:'',
         numero:'',
         anio:'',
-        tosearch:''
+        tosearch:'',
+        tofilter:''
        },
        popupval:false,
        idDel:0
@@ -97,6 +107,22 @@ export default {
       this.axios({
                 method: 'get',
                 url: this.api + '/Gestions?'+this.tosearch
+            })
+                .then((response) => {
+                    this.items = response.data;
+                    console.log(response);
+                    setTimeout(function () {
+                        var elems = document.querySelectorAll('select');
+                        var select = M.FormSelect.init(elems);
+                    });
+                })
+                .catch((error) => { console.log(error) })
+                .finally(() => { });
+    },
+    getGestionesconfiltro(){
+      this.axios({
+                method: 'get',
+                url: this.api + '/Gestions?'+this.tosearch+this.tofilter
             })
                 .then((response) => {
                     this.items = response.data;
@@ -149,10 +175,20 @@ export default {
         this.tosearch='&q='+event;
       }
       this.getGestiones();
-    }
+    },
+    onFilterFx() {
+      let field='anio';
+      let event=document.getElementById('filtro').value;
+      if (event === '') {
+        this.tofilter = '';
+      } else {
+        this.tofilter = '&' + field + '='+event;
+      }
+      this.getGestionesconfiltro();
+    },
   },
   components: {
-    Tabs,PopupG,search
+    Tabs,PopupG,search,FilterApp,FilterItem
   },
   mounted(){
     this.getGestiones();
