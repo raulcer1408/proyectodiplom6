@@ -15,7 +15,6 @@
               <th>semestre</th>
               <th>tipo</th>
               <th>año</th>
-              <th>opciones</th>
           </tr>
         </thead>
         <tbody>
@@ -23,31 +22,26 @@
             <td>{{ inscrito.curso }}</td>
             <td>{{ inscrito.tipo }}</td>
             <td>{{ inscrito.materia }}</td>
-            <template v-for="(estudiantereg,index) in inscrito.Estudiante" :key="estudiantereg.id">
+            <template v-for="(estudiantereg,index) in inscrito.Estudiantes" :key="estudiantereg.id">
               <td v-if="index=='nombres'">{{estudiantereg}}</td>
               <td v-if="index=='apellido_paterno'">{{estudiantereg}}</td>
               <td v-if="index=='apellido_materno'">{{estudiantereg}}</td>
             </template>
-            <template v-for="(gestionreg,index) in inscrito.Gestion" :key="gestionreg.id">
+            <template v-for="(gestionreg,index) in inscrito.Gestions" :key="gestionreg.id">
               <td v-if="index=='numero'">{{gestionreg}}</td>
               <td v-if="index=='tipo'">{{gestionreg}}</td>
               <td v-if="index=='anio'">{{gestionreg}}</td>
             </template>
-            <td>
-             <i class=" elimina material-icons" style="color:red" @click="">
-                delete_forever</i>
-             <i class="material-icons">create</i>
-            </td>
           </tr>
         </tbody>
       </table>
     </template>
     <template v-slot:nuevo>
   <div class="row">
-    <form class="col s12">
+    <form class="col s12" @submit.prevent="saveInscrito()">
       <div class="row">
         <div class="input-field col s12">
-    <select v-model="payload.EstudianteId">
+    <select v-model="payload.EstudiantesId">
       <option value="" disabled selected>Seleccione carnet de identidad del estudiante</option>
       <template v-for="est in itemtodoslosest">
       <option :value="est.id">{{ est.cedulaidentidad }}</option>
@@ -58,7 +52,7 @@
     </div>
       <div class="row">
         <div class="input-field col s4">
-        <select v-model="payload.GestionId">
+        <select v-model="payload.GestionsId">
       <option value="" disabled selected>Seleccione Gestion</option>
       <template v-for="gestionselect in itemtodosgestion">
       <option :value="gestionselect.id" v-if="gestionselect.numero!=0">{{ gestionselect.tipo}}-{{ gestionselect.numero }}-{{ gestionselect.anio }}</option>
@@ -116,8 +110,8 @@ export default {
        itemtodosgestion:[],
        api,
        payload:{
-        EstudianteId: '',
-        GestionId: '',
+        EstudiantesId: '',
+        GestionsId: '',
         curso: '',
         tipo: '',
         materia: '',       
@@ -164,7 +158,7 @@ export default {
     {
       this.axios({
                 method: 'get',
-                url: this.api + '/Gestion/'+id
+                url: this.api + '/Gestions/'+id
             })
                 .then((response) => {
                     this.itemest = response.data;
@@ -180,7 +174,7 @@ export default {
     getInscritos(){
       this.axios({
                 method: 'get',
-                url: this.api + '/Gestion_Estudiantes?_expand=Gestion&_expand=Estudiante'
+                url: this.api + '/Gestion_Estudiantes?_expand=Gestions&_expand=Estudiantes'
             })
                 .then((response) => {
                     this.items = response.data;
@@ -193,19 +187,21 @@ export default {
                 .catch((error) => { console.log(error) })
                 .finally(() => { });
     },
-    saveGestiones(){
+    saveInscrito(){
       this.axios({
                 method: 'post',
-                url: this.api + '/Gestion',
+                url: this.api + '/Gestion_Estudiantes',
                 data:this.payload
             })
                 .then((response) => {
                     this.payload = {
-                      tipo:'',
-                      numero:'',
-                      anio:''             
+                      EstudiantesId: '',
+                      GestionsId: '',
+                      curso: '',
+                      tipo: '',
+                      materia: '',             
                     }
-                    this.getGestiones();
+                    this.getInscritos();
                     console.log(response);
                 })
                 .catch((error) => { console.log(error) })
@@ -214,7 +210,7 @@ export default {
     eliminarGestion(id){
         this.axios({
           method:'delete',
-          url:this.api+'/Gestion/'+id
+          url:this.api+'/Gestions/'+id
         }).then((response)=>{
             this.getGestiones();
             console.log(response);

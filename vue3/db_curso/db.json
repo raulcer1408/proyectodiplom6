@@ -35,11 +35,19 @@
       "tipo": "semestral",
       "numero": 2,
       "anio": 2018
+    },
+    {
+      "tipo": "anual",
+      "numero": "0",
+      "anio": "2019",
+      "tosearch": "",
+      "tofilter": "",
+      "id": 7
     }
   ],
   "Estudiantes": [
     {
-      "id": "1",
+      "id": 1,
       "cedulaidentidad": "1536988",
       "nombres": "juan carlos",
       "apellido_paterno": "montesinos",
@@ -49,7 +57,7 @@
       "phone": "69844102"
     },
     {
-      "id": "2",
+      "id": 2,
       "cedulaidentidad": "2536199",
       "nombres": "maria",
       "apellido_paterno": "lujan",
@@ -66,23 +74,43 @@
       "direccion": "bolivar 33",
       "zona": "central",
       "phone": "258412",
-      "id": "7Yk4PXv"
+      "id": 3
+    },
+    {
+      "cedulaidentidad": "1536877",
+      "nombres": "martin arnoldo",
+      "apellido_paterno": "iglesias",
+      "apellido_materno": "ricaldi",
+      "direccion": "bolivar 22",
+      "zona": "central",
+      "phone": "73688105",
+      "id": 4
     }
   ],
   "Gestion_Estudiantes": [
     {
-      "EstudianteId": "1",
-      "GestionId": 1,
+      "EstudiantesId": 1,
+      "GestionsId": 1,
       "curso": "primero basico",
       "tipo": "principal",
-      "materia": "matematicas"
+      "materia": "matematicas",
+      "id": 1
     },
     {
-      "EstudianteId": "2",
-      "GestionId": 2,
+      "EstudiantesId": 2,
+      "GestionsId": 2,
       "curso": "primero basico",
       "tipo": "optativa",
-      "materia": "ajedrez"
+      "materia": "ajedrez",
+      "id": 2
+    },
+    {
+      "EstudiantesId": 1,
+      "GestionsId": 2,
+      "curso": "primero basico",
+      "tipo": "optativa",
+      "materia": "educacion fisica",
+      "id": 3
     }
   ]
 }
